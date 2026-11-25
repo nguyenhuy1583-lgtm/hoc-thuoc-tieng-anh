@@ -1,4 +1,4 @@
-name: Build APK Hoc Thuoc Tieng Anh
+name: Build APK Kho App
 
 on:
   push:
@@ -23,19 +23,19 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Dong goi HTML bang Capacitor
+      - name: Dong goi Capacitor va Plugin Giong Noi
         run: |
           npm init -y
-          npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6
-          npx cap init "Hoc Thuoc Tieng Anh" "com.huy.hocthuoctienganh" --web-dir=www
+          npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6 @capacitor-community/text-to-speech@6
+          npx cap init "Kho Ung Dung" "com.huy.apphub" --web-dir=www
           npx cap add android
 
-      - name: Mo quyen Micro va Internet trong AndroidManifest
+      - name: Mo quyen Micro
         run: |
           MANIFEST="android/app/src/main/AndroidManifest.xml"
           sed -i 's/<\/manifest>/    <uses-permission android:name="android.permission.RECORD_AUDIO" \/>\n    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" \/>\n<\/manifest>/' $MANIFEST
 
-      - name: Bien dich file APK
+      - name: Bien dich APK
         run: |
           cd android
           chmod +x gradlew
@@ -44,5 +44,5 @@ jobs:
       - name: Xuat file APK
         uses: actions/upload-artifact@v4
         with:
-          name: HocThuoc_TiengAnh_v3_APK
+          name: Kho_Ung_Dung_APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
